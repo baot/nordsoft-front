@@ -6,17 +6,21 @@ import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 
 import ParticipantTable from './ParticipantTable';
-import { fetchParticipants } from '../../actions/participantActions';
+import ParticipantForm from './ParticipantForm';
+import { fetchParticipants, postParticipant } from '../../actions/participantActions';
 
 class Participant extends Component {
 
     componentDidMount() {
-        this.props.getRepos();
+        this.props.getParticipants();
     }
 
     render() {
         return (
-            <ParticipantTable participants={this.props.participants}/>
+            <div>
+                <ParticipantForm onSubmit={this.props.addParticipant}/>
+                <ParticipantTable participants={this.props.participants}/>
+            </div>
         );
     }
 }
@@ -24,7 +28,9 @@ class Participant extends Component {
 Participant.propTypes = {
     participants: PropTypes.array,
     error: PropTypes.string,
-    isFetching: PropTypes.bool
+    isFetching: PropTypes.bool,
+    getParticipants: PropTypes.func,
+    addParticipant: PropTypes.func
 };
 
 const mapStateToProps = (state) => {
@@ -37,7 +43,8 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        getRepos: () => dispatch(fetchParticipants())
+        getParticipants: () => dispatch(fetchParticipants()),
+        addParticipant: (participant) => dispatch(postParticipant(participant))
     };
 };
 

@@ -5,7 +5,7 @@
 import Task from 'data.task';
 import { compose } from 'ramda';
 
-const makeUrl = () => {
+const makeGetUrl = () => {
     return `http://localhost:3001/api/participants`;
 };
 
@@ -19,6 +19,21 @@ const getRequest = url => new Task((rej, res) => {
         .catch(() => rej('not found'));
 });
 
-const getRequestParticipants = compose(getRequest, makeUrl);
+const postRequest = (participant) => new Task((rej, res) => {
+    fetch('http://localhost:3001/api/participants', {
+        method: "POST",
+        body: JSON.stringify(participant)
+    })
+    .then((resp) => {
+        if (!resp.ok) throw new Error('something wrong');
+        return resp.json();
+    })
+    .then(res)
+    .catch(() => rej('cannot create'));
+});
 
-export { getRequestParticipants };
+const getRequestParticipants = compose(getRequest, makeGetUrl);
+
+const postRequestParticipants = postRequest;
+
+export { getRequestParticipants, postRequestParticipants };
