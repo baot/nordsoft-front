@@ -3,12 +3,18 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "data.task": "^3.1.1",
     "griddle-react": "^0.8.1",
+    "ramda": "^0.23.0",
     "react": "^15.4.2",
-    "react-dom": "^15.4.2"
+    "react-dom": "^15.4.2",
+    "react-redux": "^5.0.3",
+    "redux": "^3.6.0",
+    "redux-thunk": "^2.2.0"
   },
   "devDependencies": {
-    "react-scripts": "0.9.3"
+    "react-scripts": "0.9.3",
+    "redux-logger": "^2.8.2"
   },
   "scripts": {
     "start": "react-scripts start",
