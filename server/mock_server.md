@@ -112,3 +112,28 @@ List all participants from API
       "email": "ngilbertj@google.ca",
       "phone": "976-(480)982-2513"
     }]
+
+### Create a Participant [POST]
+
++ name (string) - Participant name
++ email (string) - Participant email
++ phone (string) - Participant phone
+
++ Request (application/json)
+
+    {
+      "name": "Bao",
+      "email": "Bao@google.com",
+      "phone": "1"
+    }
+
++ Response 201 (application/json)
+
+    + Body
+
+        {
+          "id": 21,
+          "name": "Bao",
+          "email": "Bao@google.ca",
+          "phone": "976-(480)982-2513"
+        }
