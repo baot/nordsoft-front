@@ -2,31 +2,43 @@
  * Created by bao on 3/6/17.
  */
 
-import React, { Component } from 'react';
+import React, { Component, PropTypes } from 'react';
+import { connect } from 'react-redux';
 
 import ParticipantTable from './ParticipantTable';
+import { fetchParticipants } from '../../actions/participantActions';
 
 class Participant extends Component {
 
-    constructor(props) {
-        super(props);
-        this.state = {
-            participants : [
-                {
-                    id: "1",
-                    name: "bao",
-                    email: "bao@gmail.com",
-                    address: "test street"
-                }
-            ]
-        };
+    componentDidMount() {
+        this.props.getRepos();
     }
 
     render() {
         return (
-            <ParticipantTable participants={this.state.participants}/>
+            <ParticipantTable participants={this.props.participants}/>
         );
     }
 }
 
-export default Participant;
+Participant.propTypes = {
+    participants: PropTypes.array,
+    error: PropTypes.string,
+    isFetching: PropTypes.bool
+};
+
+const mapStateToProps = (state) => {
+    return {
+        participants: state.participants.participants,
+        error: state.participants.error,
+        isFetching: state.participants.isFetching
+    };
+};
+
+const mapDispatchToProps = (dispatch) => {
+    return {
+        getRepos: () => dispatch(fetchParticipants())
+    };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Participant);
