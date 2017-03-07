@@ -21,10 +21,11 @@ const getRequest = url => new Task((rej, res) => {
     .catch(() => rej('not found'));
 });
 
+// TODO: error message handling
 // TODO: split making url
 const postRequestParticipants = (participant) => new Task((rej, res) => {
   fetch('http://localhost:3001/api/participants', {
-    method: "POST",
+    method: 'POST',
     body: JSON.stringify(participant)
   })
     .then((resp) => {
@@ -35,6 +36,19 @@ const postRequestParticipants = (participant) => new Task((rej, res) => {
     .catch(() => rej('cannot create'));
 });
 
+const postEditRequestParticipant = (participant) => new Task((rej, res) => {
+  fetch(`http://localhost:3001/api/participant/${participant.id}`, {
+    method: 'PUT',
+    body: JSON.stringify(participant)
+  })
+    .then((resp) => {
+      if (!resp.ok) throw new Error('something wrong');
+      return resp.json();
+    })
+    .then(res)
+    .catch(() => rej('cannot save'));
+});
+
 const getRequestParticipants = compose(getRequest, makeGetUrl);
 
-export { getRequestParticipants, postRequestParticipants };
+export { getRequestParticipants, postRequestParticipants, postEditRequestParticipant };

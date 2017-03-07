@@ -17,11 +17,25 @@ const OptionComponent = ({ editParticipant }) => {
   );
 };
 
+const SubmitOptionComponent = ({ cancelEdit, saveEdit }) => {
+  return (
+    <div>
+      <button onClick={cancelEdit}>Cancel</button>
+      <button onClick={saveEdit}>Save</button>
+    </div>
+  )
+};
+
+SubmitOptionComponent.propTypes = {
+  cancelEdit: PropTypes.func.isRequired,
+  saveEdit: PropTypes.func.isRequired,
+};
+
 OptionComponent.propTypes = {
   editParticipant: PropTypes.func.isRequired,
 };
 
-const populateRows = (participants, editParticipantHandler, editingParticipant) => {
+const populateRows = (participants, editParticipantHandler, editingParticipant, cancelEditParticipant) => {
   return map((participant) => {
     if (!Object.is(editingParticipant, participant)) {
       return (
@@ -49,16 +63,15 @@ const populateRows = (participants, editParticipantHandler, editingParticipant) 
           <Field name="phone" component="input" type="text"/>
         </div>
         <div className="option">
-          <OptionComponent
-            editParticipant={editParticipantHandler.bind(null, participant)}/>
+          <SubmitOptionComponent cancelEdit={cancelEditParticipant.bind(null, participant)} saveEdit={console.log}/>
         </div>
       </div>
     );
 
-  })(participants);
+  })(participants.valueSeq());
 };
 
-let ParticipantTable = ({ participants, editParticipantHandler, editingParticipant }) => {
+let ParticipantTable = ({ participants, editParticipantHandler, editingParticipant, cancelEditParticipantHandler }) => {
   return (
     <div className="table-container">
       <div className="table-row header">
@@ -67,15 +80,16 @@ let ParticipantTable = ({ participants, editParticipantHandler, editingParticipa
         <div className="text">Phone number</div>
         <div className="option"></div>
       </div>
-      {populateRows(participants, editParticipantHandler, editingParticipant)}
+      {populateRows(participants, editParticipantHandler, editingParticipant, cancelEditParticipantHandler)}
     </div>
   );
 };
 
 ParticipantTable.propTypes = {
-  participants: PropTypes.array.isRequired,
+  participants: PropTypes.object.isRequired,
   editParticipantHandler: PropTypes.func.isRequired,
   editingParticipant: PropTypes.object,
+  cancelEditParticipantHandler: PropTypes.func.isRequired,
 };
 
 ParticipantTable = reduxForm({

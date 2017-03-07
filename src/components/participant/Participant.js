@@ -7,7 +7,8 @@ import { connect } from 'react-redux';
 
 import ParticipantTable from './ParticipantTable';
 import ParticipantForm from './ParticipantForm';
-import { fetchParticipants, postParticipant, requestEditingParticipant } from '../../actions/participantActions';
+import { fetchParticipants, postParticipant,
+  requestEditingFormParticipant, cancelEditingParticipant } from '../../actions/participantActions';
 
 class Participant extends Component {
 
@@ -24,6 +25,7 @@ class Participant extends Component {
           editParticipantHandler={this.props.requestEditParticipant}
           editingParticipant={this.props.editingParticipant}
           initialValues={this.props.editingParticipant}
+          cancelEditParticipantHandler={this.props.cancelEditParticipant}
         />
       </div>
     );
@@ -31,12 +33,13 @@ class Participant extends Component {
 }
 
 Participant.propTypes = {
-    participants: PropTypes.array,
+    participants: PropTypes.object,
     error: PropTypes.string,
     isFetching: PropTypes.bool,
     getParticipants: PropTypes.func,
     addParticipant: PropTypes.func,
     requestEditParticipant: PropTypes.func,
+    cancelEditParticipant: PropTypes.func,
     editingParticipant: PropTypes.object,
 };
 
@@ -53,7 +56,8 @@ const mapDispatchToProps = (dispatch) => {
     return {
         getParticipants: () => dispatch(fetchParticipants()),
         addParticipant: (participant) => dispatch(postParticipant(participant)),
-        requestEditParticipant: (participantId) => dispatch(requestEditingParticipant(participantId)),
+        requestEditParticipant: (participant) => dispatch(requestEditingFormParticipant(participant)),
+        cancelEditParticipant: (participant) => dispatch(cancelEditingParticipant(participant)),
     };
 };
 
