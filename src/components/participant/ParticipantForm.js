@@ -4,25 +4,26 @@
 import React, { Component } from 'react';
 import { Field, reduxForm } from 'redux-form';
 
+import '../ParticipantForm.css';
+
 class ParticipantForm extends Component {
     render() {
         const { handleSubmit } = this.props;
 
         return (
-            <form onSubmit={handleSubmit}>
-                <div>
-                    <label htmlFor="name">Full Name</label>
-                    <Field name="name" component="input" type="text" />
+            <form onSubmit={handleSubmit} className="participantForm">
+                <div className="form-input">
+                    <Field name="name" component="input" type="text" placeholder="Full Name"/>
                 </div>
-                <div>
-                    <label htmlFor="email">E-mail address</label>
-                    <Field name="email" component="input" type="text" />
+                <div className="form-input double-size">
+                    <Field name="email" component="input" type="text" placeholder="E-mail address"/>
                 </div>
-                <div>
-                    <label htmlFor="phone">Phone number</label>
-                    <Field name="phone" component="input" type="text" />
+                <div className="form-input">
+                    <Field name="phone" component="input" type="text" placeholder="Phone number"/>
                 </div>
-                <button type="submit">Add New</button>
+                <div className="form-input submit">
+                    <button type="submit">Add New</button>
+                </div>
             </form>
         );
     }

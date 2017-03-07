@@ -2,12 +2,14 @@ import React, { Component } from 'react';
 
 import Participant from './participant/Participant';
 
+import 'font-awesome/css/font-awesome.css';
 import logo from '../logo.svg';
 import './App.css';
 
 class App extends Component {
   render() {
     return (
+        <div className="App-container">
       <div className="App">
         <div className="App-header">
           <img src={logo} className="App-logo" alt="logo" />
@@ -15,6 +17,7 @@ class App extends Component {
         </div>
         <Participant className="table"/>
       </div>
+        </div>
     );
   }
 }
