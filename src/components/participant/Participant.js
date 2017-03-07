@@ -8,7 +8,7 @@ import { connect } from 'react-redux';
 import ParticipantTable from './ParticipantTable';
 import ParticipantForm from './ParticipantForm';
 import { fetchParticipants, postParticipant,
-  requestEditingFormParticipant, cancelEditingParticipant } from '../../actions/participantActions';
+  requestEditingFormParticipant, cancelEditingParticipant, editParticipant } from '../../actions/participantActions';
 
 class Participant extends Component {
 
@@ -22,10 +22,11 @@ class Participant extends Component {
         <ParticipantForm onSubmit={this.props.addParticipant}/>
         <ParticipantTable
           participants={this.props.participants}
-          editParticipantHandler={this.props.requestEditParticipant}
+          editFormParticipantHandler={this.props.getEditFormParticipant}
           editingParticipant={this.props.editingParticipant}
           initialValues={this.props.editingParticipant}
           cancelEditParticipantHandler={this.props.cancelEditParticipant}
+          requestEditParticipant={this.props.requestEditParticipant}
         />
       </div>
     );
@@ -38,8 +39,9 @@ Participant.propTypes = {
     isFetching: PropTypes.bool,
     getParticipants: PropTypes.func,
     addParticipant: PropTypes.func,
-    requestEditParticipant: PropTypes.func,
+    getEditFormParticipant: PropTypes.func,
     cancelEditParticipant: PropTypes.func,
+    requestEditParticipant: PropTypes.func,
     editingParticipant: PropTypes.object,
 };
 
@@ -56,8 +58,9 @@ const mapDispatchToProps = (dispatch) => {
     return {
         getParticipants: () => dispatch(fetchParticipants()),
         addParticipant: (participant) => dispatch(postParticipant(participant)),
-        requestEditParticipant: (participant) => dispatch(requestEditingFormParticipant(participant)),
+        getEditFormParticipant: (participant) => dispatch(requestEditingFormParticipant(participant)),
         cancelEditParticipant: (participant) => dispatch(cancelEditingParticipant(participant)),
+        requestEditParticipant: (participant) => dispatch(editParticipant(participant)),
     };
 };
 

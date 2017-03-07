@@ -135,5 +135,39 @@ List all participants from API
           "id": 21,
           "name": "Bao",
           "email": "Bao@google.ca",
-          "phone": "976-(480)982-2513"
+          "phone": "1"
+        }
+
+# Group Participant
+
+## Participant [/api/participant/{participant_id}]
+
++ Parameters
+    + participant_id: 1 (number) - ID of the Question in the form of an integer
+
+### Edit a Participant [PUT]
+
++ id (number) - participant id
++ name (string) - Participant name
++ email (string) - Participant email
++ phone (string) - Participant phone
+
++ Request (application/json)
+
+    {
+      "id": 1,
+      "name": "Bao1",
+      "email": "Bao11@google.com",
+      "phone": "11"
+    }
+
++ Response 200 (application/json)
+
+    + Body
+
+        {
+          "id": 1,
+          "name": "Bao1",
+          "email": "Bao11@google.ca",
+          "phone": "11"
         }

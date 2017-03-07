@@ -30,7 +30,7 @@ export function participantReducer(state = {
 
     case RECEIVE_GET_PARTICIPANTS:
       return Object.assign({}, state, {
-        isFetching: false,
+        isGetFetching: false,
         participants:  Map(map((participant) => {
           return [participant.id, participant];
         })(action.participants)),
@@ -74,6 +74,8 @@ export function participantReducer(state = {
 
     case RECEIVE_POST_EDITTING_PARTICIPANT:
       return Object.assign({}, state, {
+        isEditFetching: false,
+        editingParticipant: null,
         participants: state.participants.set(action.participant.id, action.participant),
       });
 
