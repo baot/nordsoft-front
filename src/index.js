@@ -12,16 +12,16 @@ import './index.css';
 const loggerMiddleware = logger();
 
 const store = createStore(
-    rootReducer,
-    applyMiddleware(
-        thunkMiddleware,
-        loggerMiddleware
-    )
+  rootReducer,
+  applyMiddleware(
+    thunkMiddleware,
+    loggerMiddleware
+  )
 );
 
 ReactDOM.render(
-    <Provider store={store}>
-        <App />
-    </Provider>,
+  <Provider store={store}>
+    <App />
+  </Provider>,
   document.getElementById('root')
 );
