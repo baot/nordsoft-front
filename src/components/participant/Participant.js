@@ -7,22 +7,27 @@ import { connect } from 'react-redux';
 
 import ParticipantTable from './ParticipantTable';
 import ParticipantForm from './ParticipantForm';
-import { fetchParticipants, postParticipant } from '../../actions/participantActions';
+import { fetchParticipants, postParticipant, requestEditingParticipant } from '../../actions/participantActions';
 
 class Participant extends Component {
 
-    componentDidMount() {
-        this.props.getParticipants();
-    }
+  componentDidMount() {
+    this.props.getParticipants();
+  }
 
-    render() {
-        return (
-            <div>
-                <ParticipantForm onSubmit={this.props.addParticipant}/>
-                <ParticipantTable participants={this.props.participants}/>
-            </div>
-        );
-    }
+  render() {
+    return (
+      <div>
+        <ParticipantForm onSubmit={this.props.addParticipant}/>
+        <ParticipantTable
+          participants={this.props.participants}
+          editParticipantHandler={this.props.requestEditParticipant}
+          editingParticipant={this.props.editingParticipant}
+          initialValues={this.props.editingParticipant}
+        />
+      </div>
+    );
+  }
 }
 
 Participant.propTypes = {
@@ -30,21 +35,25 @@ Participant.propTypes = {
     error: PropTypes.string,
     isFetching: PropTypes.bool,
     getParticipants: PropTypes.func,
-    addParticipant: PropTypes.func
+    addParticipant: PropTypes.func,
+    requestEditParticipant: PropTypes.func,
+    editingParticipant: PropTypes.object,
 };
 
 const mapStateToProps = (state) => {
     return {
         participants: state.participants.participants,
         error: state.participants.error,
-        isFetching: state.participants.isFetching
+        isFetching: state.participants.isFetching,
+        editingParticipant: state.participants.editingParticipant,
     };
 };
 
 const mapDispatchToProps = (dispatch) => {
     return {
         getParticipants: () => dispatch(fetchParticipants()),
-        addParticipant: (participant) => dispatch(postParticipant(participant))
+        addParticipant: (participant) => dispatch(postParticipant(participant)),
+        requestEditParticipant: (participantId) => dispatch(requestEditingParticipant(participantId)),
     };
 };
 

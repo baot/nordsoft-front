@@ -8,7 +8,7 @@ import { participantReducer } from './participantReducer';
 
 const rootReducer = combineReducers({
   participants: participantReducer,
-  form: formReducer
+  form: formReducer,
 });
 
 export default rootReducer;

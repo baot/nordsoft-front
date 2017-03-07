@@ -10,45 +10,53 @@ export const ERROR_RECEIVE_GET_PARTICIPANTS = "ERROR_RECEIVE_GET_PARTICIPANTS";
 export const REQUEST_POST_PARTICIPANTS = "REQUEST_POST_PARTICIPANTS";
 export const RECEIVE_POST_PARTICIPANTS = "RECEIVE_POST_PARTICIPANTS";
 export const ERROR_RECEIVE_POST_PARTICIPANTS = "ERROR_RECEIVE_POST_PARTICIPANTS";
+export const REQUEST_EDITING_PARTICIPANT = "REQUEST_EDITING_PARTICIPANT";
 
 const requestGetParticipants = () => {
   return {
-    type: REQUEST_GET_PARTICIPANTS
+    type: REQUEST_GET_PARTICIPANTS,
   };
 };
 
 const receiveGetParticipants = (participants) => {
   return {
     type: RECEIVE_GET_PARTICIPANTS,
-    participants
+    participants,
   };
 };
 
 const receiveGetErrorParticipants = (error) => {
   return {
     type: ERROR_RECEIVE_GET_PARTICIPANTS,
-    error
+    error,
   };
 };
 
 const requestPostParticipants = (participant) => {
   return {
     type: REQUEST_POST_PARTICIPANTS,
-    participant
+    participant,
   };
 };
 
 const receivePostParticipants = (participant) => {
   return {
     type: RECEIVE_POST_PARTICIPANTS,
-    participant
+    participant,
   };
 };
 
 const receivePostErrorParticipants = (error) => {
   return {
     type: ERROR_RECEIVE_POST_PARTICIPANTS,
-    error
+    error,
+  };
+};
+
+export const requestEditingParticipant = (editParticipant) => {
+  return {
+    type: REQUEST_EDITING_PARTICIPANT,
+    editParticipant,
   };
 };
 
