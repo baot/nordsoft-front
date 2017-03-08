@@ -8,7 +8,8 @@ import { connect } from 'react-redux';
 import ParticipantTable from './ParticipantTable';
 import ParticipantForm from './ParticipantForm';
 import { fetchParticipants, postParticipant,
-  requestEditingFormParticipant, cancelEditingParticipant, editParticipant } from '../../actions/participantActions';
+  requestEditingFormParticipant, cancelEditingParticipant, editParticipant,
+  requestDeletingFormParticipant, cancelDeletingParticipant, deleteParticipant } from '../../actions/participantActions';
 
 class Participant extends Component {
 
@@ -27,6 +28,10 @@ class Participant extends Component {
           initialValues={this.props.editingParticipant}
           cancelEditParticipantHandler={this.props.cancelEditParticipant}
           requestEditParticipant={this.props.requestEditParticipant}
+          deleteParticipant={this.props.deleteParticipant}
+          getDeleteFormParticipant={this.props.getDeleteFormParticipant}
+          cancelDeletingParticipant={this.props.cancelDeletingParticipant}
+          isDeleteForm={this.props.isDeleteForm}
         />
       </div>
     );
@@ -43,6 +48,10 @@ Participant.propTypes = {
     cancelEditParticipant: PropTypes.func,
     requestEditParticipant: PropTypes.func,
     editingParticipant: PropTypes.object,
+    deleteParticipant: PropTypes.func,
+    getDeleteFormParticipant: PropTypes.func,
+    cancelDeletingParticipant: PropTypes.func,
+    isDeleteForm: PropTypes.bool,
 };
 
 const mapStateToProps = (state) => {
@@ -51,9 +60,11 @@ const mapStateToProps = (state) => {
         error: state.participants.error,
         isFetching: state.participants.isFetching,
         editingParticipant: state.participants.editingParticipant,
+        isDeleteForm: state.participants.isDeleteForm,
     };
 };
 
+// TODO use bindActionCreators
 const mapDispatchToProps = (dispatch) => {
     return {
         getParticipants: () => dispatch(fetchParticipants()),
@@ -61,6 +72,9 @@ const mapDispatchToProps = (dispatch) => {
         getEditFormParticipant: (participant) => dispatch(requestEditingFormParticipant(participant)),
         cancelEditParticipant: (participant) => dispatch(cancelEditingParticipant(participant)),
         requestEditParticipant: (participant) => dispatch(editParticipant(participant)),
+        getDeleteFormParticipant: (participant) => dispatch(requestDeletingFormParticipant(participant)),
+        cancelDeletingParticipant: (participant) => dispatch(cancelDeletingParticipant(participant)),
+        deleteParticipant: (participant) => dispatch(deleteParticipant(participant)),
     };
 };
 

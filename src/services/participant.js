@@ -49,6 +49,19 @@ const postEditRequestParticipant = (participant) => new Task((rej, res) => {
     .catch(() => rej('cannot save'));
 });
 
+const postDeleteRequestParticipant = (participant) => new Task((rej, res) => {
+  fetch(`http://localhost:3001/api/participant/${participant.id}`, {
+    method: 'DELETE',
+    body: JSON.stringify(participant),
+  })
+    .then((resp) => {
+      if (!resp.ok) throw new Error('something wrong');
+      return resp.status;
+    })
+    .then(res)
+    .catch(() => rej('cannot delete'));
+});
+
 const getRequestParticipants = compose(getRequest, makeGetUrl);
 
-export { getRequestParticipants, postRequestParticipants, postEditRequestParticipant };
+export { getRequestParticipants, postRequestParticipants, postEditRequestParticipant, postDeleteRequestParticipant };

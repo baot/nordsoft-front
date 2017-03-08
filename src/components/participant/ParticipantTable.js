@@ -8,36 +8,40 @@ import { map } from 'ramda';
 
 import '../ParticipantTable.css';
 
-const OptionComponent = ({ editParticipant }) => {
+const OptionComponent = ({ editParticipant, deleteParticipant }) => {
   return (
     <div>
       <a className="fa fa-pencil" onClick={editParticipant}/>
-      <a className="fa fa-trash" />
+      <a className="fa fa-trash" onClick={deleteParticipant}/>
     </div>
   );
 };
 
 OptionComponent.propTypes = {
   editParticipant: PropTypes.func.isRequired,
+  deleteParticipant: PropTypes.func.isRequired,
 };
 
-const SubmitOptionComponent = ({ cancelEdit, saveEdit }) => {
+const SubmitOptionComponent = ({ isDelete, cancelHandler, confirmHandler }) => {
   return (
     <div>
-      <button onClick={cancelEdit}>Cancel</button>
-      <button onClick={saveEdit}>Save</button>
+      <button onClick={cancelHandler}>Cancel</button>
+      <button onClick={confirmHandler}>{(isDelete) ? "Delete" : "Save"}</button>
     </div>
-  )
+  );
 };
 
 SubmitOptionComponent.propTypes = {
-  cancelEdit: PropTypes.func.isRequired,
-  saveEdit: PropTypes.func.isRequired,
+  isDelete: PropTypes.bool.isRequired,
+  cancelHandler: PropTypes.func.isRequired,
+  confirmHandler: PropTypes.func.isRequired,
 };
 
+// TODO REFACTOR
 const populateRows = ({
-    participants, editFormParticipantHandler,
-    editingParticipant, cancelEditParticipantHandler, requestEditParticipant
+    participants, editFormParticipantHandler, editingParticipant,
+    isDeleteForm, cancelEditParticipantHandler, requestEditParticipant,
+    getDeleteFormParticipant, deleteParticipant, cancelDeletingParticipant
   }) => {
     return map((participant) => {
       if (!Object.is(editingParticipant, participant)) {
@@ -48,7 +52,22 @@ const populateRows = ({
             <div className="text">{participant.phone}</div>
             <div className="option">
               <OptionComponent
-                editParticipant={editFormParticipantHandler.bind(null, participant)}/>
+                editParticipant={editFormParticipantHandler.bind(null, participant)}
+                deleteParticipant={getDeleteFormParticipant.bind(null, participant)}/>
+            </div>
+          </div>
+        );
+      } else if (isDeleteForm) {
+        return (
+          <div className="table-row body" key={participant.id}>
+            <div className="text">{participant.name}</div>
+            <div className="text double-size">{participant.email}</div>
+            <div className="text">{participant.phone}</div>
+            <div className="option">
+              <SubmitOptionComponent
+                isDelete={true}
+                cancelHandler={cancelDeletingParticipant.bind(null, participant)}
+                confirmHandler={deleteParticipant.bind(null, participant)}/>
             </div>
           </div>
         );
@@ -67,8 +86,9 @@ const populateRows = ({
           </div>
           <div className="option">
             <SubmitOptionComponent
-              cancelEdit={cancelEditParticipantHandler.bind(null, participant)}
-              saveEdit={requestEditParticipant.bind(null, participant)}/>
+              isDelete={false}
+              cancelHandler={cancelEditParticipantHandler.bind(null, participant)}
+              confirmHandler={requestEditParticipant.bind(null, participant)}/>
           </div>
         </div>
       );
@@ -96,6 +116,10 @@ ParticipantTable.propTypes = {
   editingParticipant: PropTypes.object,
   cancelEditParticipantHandler: PropTypes.func.isRequired,
   requestEditParticipant: PropTypes.func.isRequired,
+  isDeleteForm: PropTypes.bool,
+  deleteParticipant: PropTypes.func.isRequired,
+  getDeleteFormParticipant: PropTypes.func.isRequired,
+  cancelDeletingParticipant: PropTypes.func.isRequired,
 };
 
 ParticipantTable = reduxForm({
