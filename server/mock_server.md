@@ -171,3 +171,7 @@ List all participants from API
           "email": "Bao11@google.ca",
           "phone": "11"
         }
+        
+### Delete [DELETE]
+
++ Response 204
