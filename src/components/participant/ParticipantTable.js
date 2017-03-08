@@ -6,6 +6,8 @@ import React, { PropTypes } from 'react';
 import { Field, reduxForm } from 'redux-form';
 import { map } from 'ramda';
 
+import { validationRequired, validationEmail, renderField } from './FormFields';
+
 import '../ParticipantTable.css';
 
 const OptionComponent = ({ editParticipant, deleteParticipant }) => {
@@ -76,13 +78,17 @@ const populateRows = ({
       return (
         <div className="table-row body" key={editingParticipant.id} >
           <div className="text">
-            <Field name="name" component="input" type="text"/>
+            <Field
+              name="name" component={renderField}
+              type="text" validate={validationRequired} label="Full name"/>
           </div>
           <div className="text double-size">
-            <Field name="email" component="input" type="text"/>
+            <Field name="email" component={renderField}
+              type="text" validate={[validationEmail, validationRequired]} label="E-mail address"/>
           </div>
           <div className="text">
-            <Field name="phone" component="input" type="text"/>
+            <Field name="phone" component={renderField}
+              type="text" validate={validationRequired} label="Phone number"/>
           </div>
           <div className="option">
             <SubmitOptionComponent
