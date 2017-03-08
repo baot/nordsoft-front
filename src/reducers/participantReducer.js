@@ -11,8 +11,9 @@ import {
     REQUEST_EDITING_FORM_PARTICIPANT, CANCEL_EDITING_PARTICIPANT,
     REQUEST_POST_EDITING_PARTICIPANT, RECEIVE_POST_EDITTING_PARTICIPANT, ERROR_RECEIVE_EDITTING_PARTICIPANT,
     REQUEST_DELETING_FORM_PARTICIPANT, REQUEST_DELETE_PARTICIPANT, RECEIVE_DELETE_PARTICIPANT,
-    ERROR_RECEIVE_DELETE_PARTICIPANT, CANCEL_DELETING_PARTICIPANT,
+    ERROR_RECEIVE_DELETE_PARTICIPANT, CANCEL_DELETING_PARTICIPANT, SORT_PARTICIPANT,
 } from '../actions/participantActions';
+import { sortMap, Comparator } from '../services/participant';
 
 export function participantReducer(state = {
   isGetFetching: false,
@@ -26,6 +27,7 @@ export function participantReducer(state = {
   deleteError: null,
   editingParticipant: null, // only allow 1 editing or deleting participant at a time,
   isDeleteForm: null,
+  sortAttribute: null,
 }, action) {
   switch (action.type) {
     case REQUEST_GET_PARTICIPANTS:
@@ -118,6 +120,12 @@ export function participantReducer(state = {
       return Object.assign({}, state, {
         isDeleteFetching: false,
         deleteError: state.error,
+      });
+
+    case SORT_PARTICIPANT:
+      return Object.assign({}, state, {
+        participants: sortMap((state.participants), Comparator(action.attribute)),
+        sortAttribute: action.attribute,
       });
 
     default:

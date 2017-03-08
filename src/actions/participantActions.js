@@ -28,6 +28,8 @@ export const CANCEL_DELETING_PARTICIPANT = "CANCEL_DELETING_PARTICIPANT";
 export const REQUEST_DELETE_PARTICIPANT = "REQUEST_DELETE_PARTICIPANT";
 export const RECEIVE_DELETE_PARTICIPANT = "RECEIVE_DELETE_PARTICIPANT";
 export const ERROR_RECEIVE_DELETE_PARTICIPANT = "ERROR_RECEIVE_DELETE_PARTICIPANT";
+// SORT PARTICIPANT
+export const SORT_PARTICIPANT = "SORT_PARTICIPANT";
 
 // GET ALL PARTICIPANT REQUEST API
 const requestGetParticipants = () => {
@@ -209,4 +211,12 @@ export function deleteParticipant(participant) {
       },
     );
   }
+}
+
+export function sortParticipant(attribute, isAscending) {
+  return {
+    type: SORT_PARTICIPANT,
+    attribute,
+    isAscending,
+  };
 }

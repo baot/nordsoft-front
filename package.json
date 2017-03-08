@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "classnames": "^2.2.5",
     "data.task": "^3.1.1",
     "font-awesome": "^4.7.0",
     "immutable": "^3.8.1",

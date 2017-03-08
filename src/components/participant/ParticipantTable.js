@@ -4,6 +4,7 @@
 
 import React, { PropTypes } from 'react';
 import { Field, reduxForm } from 'redux-form';
+import classNames from 'classnames';
 import { map } from 'ramda';
 
 import { validationRequired, validationEmail, renderField } from './FormFields';
@@ -43,7 +44,8 @@ SubmitOptionComponent.propTypes = {
 const populateRows = ({
     participants, editFormParticipantHandler, editingParticipant,
     isDeleteForm, cancelEditParticipantHandler, requestEditParticipant,
-    getDeleteFormParticipant, deleteParticipant, cancelDeletingParticipant
+    getDeleteFormParticipant, deleteParticipant, cancelDeletingParticipant,
+    sortParticipant,
   }) => {
     return map((participant) => {
       if (!Object.is(editingParticipant, participant)) {
@@ -103,12 +105,26 @@ const populateRows = ({
 };
 
 let ParticipantTable = (props) => {
+  const divClass = (attr) => {
+    return classNames({
+      text: true,
+      'double-size': (attr === 'email'),
+      'fa fa-arrow-down': (attr === props.sortAttribute)
+    });
+  };
+
   return (
     <div className="table-container">
       <div className="table-row header">
-        <div className="text">Name</div>
-        <div className="text double-size">E-mail address</div>
-        <div className="text">Phone number</div>
+        <div
+          className={divClass('name')}
+          onClick={props.sortParticipant.bind(null, "name", true)}>Name</div>
+        <div
+          className={divClass('email')}
+          onClick={props.sortParticipant.bind(null, "email", true)}>E-mail address</div>
+        <div
+          className={divClass('phone')}
+          onClick={props.sortParticipant.bind(null, "phone", true)}>Phone number</div>
         <div className="option"></div>
       </div>
       {populateRows(props)}
@@ -126,6 +142,8 @@ ParticipantTable.propTypes = {
   deleteParticipant: PropTypes.func.isRequired,
   getDeleteFormParticipant: PropTypes.func.isRequired,
   cancelDeletingParticipant: PropTypes.func.isRequired,
+  sortParticipant: PropTypes.func.isRequired,
+  sortAttribute: PropTypes.string,
 };
 
 ParticipantTable = reduxForm({

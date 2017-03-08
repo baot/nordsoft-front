@@ -7,7 +7,7 @@ import { connect } from 'react-redux';
 
 import ParticipantTable from './ParticipantTable';
 import ParticipantForm from './ParticipantForm';
-import { fetchParticipants, postParticipant,
+import { fetchParticipants, postParticipant, sortParticipant,
   requestEditingFormParticipant, cancelEditingParticipant, editParticipant,
   requestDeletingFormParticipant, cancelDeletingParticipant, deleteParticipant } from '../../actions/participantActions';
 
@@ -32,6 +32,8 @@ class Participant extends Component {
           getDeleteFormParticipant={this.props.getDeleteFormParticipant}
           cancelDeletingParticipant={this.props.cancelDeletingParticipant}
           isDeleteForm={this.props.isDeleteForm}
+          sortParticipant={this.props.sortParticipant}
+          sortAttribute={this.props.sortAttribute}
         />
       </div>
     );
@@ -51,7 +53,9 @@ Participant.propTypes = {
     deleteParticipant: PropTypes.func,
     getDeleteFormParticipant: PropTypes.func,
     cancelDeletingParticipant: PropTypes.func,
+    sortParticipant: PropTypes.func,
     isDeleteForm: PropTypes.bool,
+    sortAttribute: PropTypes.string,
 };
 
 const mapStateToProps = (state) => {
@@ -61,6 +65,7 @@ const mapStateToProps = (state) => {
         isFetching: state.participants.isFetching,
         editingParticipant: state.participants.editingParticipant,
         isDeleteForm: state.participants.isDeleteForm,
+        sortAttribute: state.participants.sortAttribute,
     };
 };
 
@@ -75,6 +80,7 @@ const mapDispatchToProps = (dispatch) => {
         getDeleteFormParticipant: (participant) => dispatch(requestDeletingFormParticipant(participant)),
         cancelDeletingParticipant: (participant) => dispatch(cancelDeletingParticipant(participant)),
         deleteParticipant: (participant) => dispatch(deleteParticipant(participant)),
+        sortParticipant: (attribute, isAscending) => dispatch(sortParticipant(attribute, isAscending)),
     };
 };
 

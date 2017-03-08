@@ -64,4 +64,19 @@ const postDeleteRequestParticipant = (participant) => new Task((rej, res) => {
 
 const getRequestParticipants = compose(getRequest, makeGetUrl);
 
-export { getRequestParticipants, postRequestParticipants, postEditRequestParticipant, postDeleteRequestParticipant };
+
+// SORT SERVICE
+// Map -> attribute -> sorted Map
+const Comparator = (attribute) => {
+  return (a, b) => {
+    if (a[attribute] < b[attribute]) { return -1; }
+    if (a[attribute] > b[attribute]) { return 1; }
+    return 0;
+  };
+};
+
+const sortMap = (map, comparator) => {
+  return map.sort(comparator);
+};
+
+export { getRequestParticipants, postRequestParticipants, postEditRequestParticipant, postDeleteRequestParticipant, sortMap, Comparator };
