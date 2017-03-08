@@ -3,6 +3,7 @@
  */
 
 import { getRequestParticipants, postRequestParticipants, postEditRequestParticipant } from '../services/participant';
+import { newNotification } from './notificationActions';
 
 // GET ALL PARTICIPANT REQUEST API ACTION TYPE
 export const REQUEST_GET_PARTICIPANTS = "REQUEST_GET_PARTICIPANTS";
@@ -117,7 +118,13 @@ export const postParticipant = (participant) => {
 
     postRequestParticipants(participant).fork(
       err => dispatch(receivePostErrorParticipants(err)),
-      participant => dispatch(receivePostParticipants(participant)),
+      participant => {
+        dispatch(receivePostParticipants(participant));
+        dispatch(newNotification(
+          `Participant ${participant.name} created`,
+          'success',
+        ));
+      }
     );
   };
 };
@@ -127,8 +134,16 @@ export const editParticipant = (participant) => {
     dispatch(requestPostEditingParticipant(participant));
 
     postEditRequestParticipant(participant).fork(
-      err => dispatch(errorReceiveEdittingParticipant(err)),
-      participant => dispatch(receivePostEdittingParticipant(participant))
+      err => {
+        dispatch(errorReceiveEdittingParticipant(err));
+      },
+      participant => {
+        dispatch(receivePostEdittingParticipant(participant));
+        dispatch(newNotification(
+          `Participant ${participant.name} saved`,
+          'success',
+        ));
+      },
     );
   };
 };

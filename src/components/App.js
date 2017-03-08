@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 
 import Participant from './participant/Participant';
+import Notification from './notification/Notification';
 
 import 'font-awesome/css/font-awesome.css';
 import logo from '../logo.svg';
@@ -16,6 +17,7 @@ class App extends Component {
             <h2>Welcome to React</h2>
           </div>
           <Participant className="table"/>
+          <Notification />
         </div>
       </div>
     );
