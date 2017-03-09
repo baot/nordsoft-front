@@ -100,11 +100,11 @@ const populateRows = ({
 };
 
 let ParticipantTable = (props) => {
-  const divClass = (attr) => {
+  const divClass = (attr, isDiv) => {
     return classNames({
-      text: true,
-      'double-size': (attr === 'email'),
-      'fa fa-arrow-down': (attr === props.sortAttribute)
+      text: (isDiv),
+      'double-size': (isDiv && attr === 'email'),
+      'fa fa-arrow-down': (!isDiv && attr === props.sortAttribute)
     });
   };
 
@@ -114,14 +114,19 @@ let ParticipantTable = (props) => {
     <div className="table-container">
       <div className="table-row header">
         <div
-          className={divClass('name')}
-          onClick={sortParticipant.bind(null, "name", true)}>Name</div>
+          className={divClass('name', true)}
+          onClick={sortParticipant.bind(null, "name", true)}>
+            Full Name
+          <i className={divClass('name', false)}/></div>
         <div
-          className={divClass('email')}
-          onClick={sortParticipant.bind(null, "email", true)}>E-mail address</div>
+          className={divClass('email', true)}
+          onClick={sortParticipant.bind(null, "email", true)}>
+            E-mail address
+          <i className={divClass('email', false)}/></div>
         <div
-          className={divClass('phone')}
-          onClick={sortParticipant.bind(null, "phone", true)}>Phone number</div>
+          className={divClass('phone', true)}
+          onClick={sortParticipant.bind(null, "phone", true)}>Phone number
+          <i className={divClass('phone', false)}/></div>
         <div className="option"></div>
       </div>
       {populateRows(props)}

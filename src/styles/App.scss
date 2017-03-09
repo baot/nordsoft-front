@@ -1,7 +1,7 @@
 @import "variables";
 
 .App-container {
-  background-color: $background-color;
+  background-color: $background-body-color;
   text-align: center;
 }
 
@@ -12,7 +12,7 @@
   h2 {
     text-align: left;
     margin: 2em 0;
-    color: $h2-color;
+    color: $header-text-color;
   }
 }
 
