@@ -20,11 +20,13 @@
   "devDependencies": {
     "bootstrap": "^3.3.7",
     "enzyme": "^2.7.1",
+    "fetch-mock": "^5.9.4",
     "node-sass": "^4.5.0",
     "npm-run-all": "^4.0.2",
     "react-addons-test-utils": "^15.4.2",
     "react-scripts": "0.9.3",
-    "redux-logger": "^2.8.2"
+    "redux-logger": "^2.8.2",
+    "redux-mock-store": "^1.2.2"
   },
   "scripts": {
     "start-js": "react-scripts start",

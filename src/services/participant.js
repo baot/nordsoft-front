@@ -35,9 +35,7 @@ const postRequestParticipants = (participant) => new Task((rej, res) => {
     headers: header,
   })
     .then((resp) => {
-      console.log(resp);
       if (!resp.ok) throw new Error('something wrong');
-      console.log(resp);
       return resp.json();
     })
     .then(res)

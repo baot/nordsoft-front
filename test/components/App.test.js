@@ -1,8 +1,15 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
-import App from './App';
+import { shallow } from 'enzyme';
 
-it('renders without crashing', () => {
-  const div = document.createElement('div');
-  ReactDOM.render(<App />, div);
+import App from '../../src/components/App';
+import Participant from '../../src/components/participant/Participant';
+import Notification from '../../src/components/notification/Notification';
+
+it('renders child components', () => {
+  const wrapper = shallow(<App />);
+  expect(wrapper.find('div.App-container')).toHaveLength(1);
+  expect(wrapper.find('div.App')).toHaveLength(1);
+  expect(wrapper.find('img.App-logo')).toHaveLength(1);
+  expect(wrapper.contains(<Participant className="table"/>)).toEqual(true);
+  expect(wrapper.contains(<Notification />)).toEqual(true);
 });

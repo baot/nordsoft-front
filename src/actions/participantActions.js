@@ -85,10 +85,13 @@ export function fetchParticipants() {
   return function fetchParticipantsThunk(dispatch) {
     dispatch(requestGetParticipants());
 
-    getRequestParticipants().fork(
+    const getTask = getRequestParticipants();
+    getTask.fork(
       err => dispatch(errorNotification(err)),
       participants => dispatch(receiveGetParticipants(participants)),
     );
+
+    return getTask;
   };
 };
 
@@ -96,13 +99,17 @@ export function postParticipant(participant) {
   return function postParticipantThunk(dispatch) {
     dispatch(requestPostParticipants(participant));
 
-    postRequestParticipants(participant).fork(
+    const postTask = postRequestParticipants(participant);
+
+    postTask.fork(
       err => dispatch(errorNotification(err)),
       participant => {
         dispatch(receivePostParticipants(participant));
         dispatch(successNotification(`Participant ${participant.name} created`));
       }
     );
+
+    return postTask;
   };
 };
 
@@ -110,7 +117,9 @@ export function editParticipant(participant) {
   return function editParticipantThunk(dispatch) {
     dispatch(requestPostEditingParticipant(participant));
 
-    postEditRequestParticipant(participant).fork(
+    const editTask = postEditRequestParticipant(participant);
+
+    editTask.fork(
       err => {
         dispatch(errorNotification(err));
       },
@@ -119,6 +128,8 @@ export function editParticipant(participant) {
         dispatch(successNotification(`Participant ${participant.name} saved`));
       },
     );
+
+    return editTask;
   };
 };
 
@@ -126,7 +137,9 @@ export function deleteParticipant(participant) {
   return function deleteParticipantThunk(dispatch) {
     dispatch(requestPostDeletingParticipant(participant));
 
-    postDeleteRequestParticipant(participant).fork(
+    const deleteTask = postDeleteRequestParticipant(participant);
+
+    deleteTask.fork(
       err => {
         dispatch(errorNotification(err));
       },
@@ -135,5 +148,7 @@ export function deleteParticipant(participant) {
         dispatch(successNotification(`Participant deleted`));
       },
     );
+
+    return deleteTask;
   }
 }
