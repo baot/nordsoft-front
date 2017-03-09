@@ -42,10 +42,7 @@ SubmitOptionComponent.propTypes = {
 
 // TODO REFACTOR
 const populateRows = ({
-    participants, editFormParticipantHandler, editingParticipant,
-    isDeleteForm, cancelEditParticipantHandler, requestEditParticipant,
-    getDeleteFormParticipant, deleteParticipant, cancelDeletingParticipant, handleSubmit,
-    sortParticipant,
+    participants, editingParticipant, isDeleteForm, handleSubmit, participantRequestActions, participantTableActions
   }) => {
     return map((participant) => {
       if (!Object.is(editingParticipant, participant)) {
@@ -56,8 +53,8 @@ const populateRows = ({
             <div className="text">{participant.phone}</div>
             <div className="option">
               <OptionComponent
-                editParticipant={editFormParticipantHandler.bind(null, participant)}
-                deleteParticipant={getDeleteFormParticipant.bind(null, participant)}/>
+                editParticipant={participantTableActions.requestEditingFormParticipant.bind(null, participant)}
+                deleteParticipant={participantTableActions.requestDeletingFormParticipant.bind(null, participant)}/>
             </div>
           </div>
         );
@@ -70,8 +67,8 @@ const populateRows = ({
             <div className="option">
               <SubmitOptionComponent
                 isDelete={true}
-                cancelHandler={cancelDeletingParticipant.bind(null, participant)}
-                confirmHandler={deleteParticipant.bind(null, participant)}/>
+                cancelHandler={participantTableActions.cancelDeletingParticipant.bind(null, participant)}
+                confirmHandler={participantRequestActions.deleteParticipant.bind(null, participant)}/>
             </div>
           </div>
         );
@@ -95,9 +92,9 @@ const populateRows = ({
           <div className="option">
             <SubmitOptionComponent
               isDelete={false}
-              cancelHandler={cancelEditParticipantHandler.bind(null, participant)}
+              cancelHandler={participantTableActions.cancelEditingParticipant.bind(null, participant)}
               confirmHandler={handleSubmit(data => {
-                requestEditParticipant(data);
+                participantRequestActions.editParticipant(data);
               })}/>
           </div>
         </div>
@@ -115,18 +112,20 @@ let ParticipantTable = (props) => {
     });
   };
 
+  const { sortParticipant } = props.participantTableActions;
+
   return (
     <div className="table-container">
       <div className="table-row header">
         <div
           className={divClass('name')}
-          onClick={props.sortParticipant.bind(null, "name", true)}>Name</div>
+          onClick={sortParticipant.bind(null, "name", true)}>Name</div>
         <div
           className={divClass('email')}
-          onClick={props.sortParticipant.bind(null, "email", true)}>E-mail address</div>
+          onClick={sortParticipant.bind(null, "email", true)}>E-mail address</div>
         <div
           className={divClass('phone')}
-          onClick={props.sortParticipant.bind(null, "phone", true)}>Phone number</div>
+          onClick={sortParticipant.bind(null, "phone", true)}>Phone number</div>
         <div className="option"></div>
       </div>
       {populateRows(props)}
@@ -136,17 +135,11 @@ let ParticipantTable = (props) => {
 
 ParticipantTable.propTypes = {
   participants: PropTypes.object.isRequired,
-  editFormParticipantHandler: PropTypes.func.isRequired,
   editingParticipant: PropTypes.object,
-  cancelEditParticipantHandler: PropTypes.func.isRequired,
-  requestEditParticipant: PropTypes.func.isRequired,
   isDeleteForm: PropTypes.bool,
-  deleteParticipant: PropTypes.func.isRequired,
-  getDeleteFormParticipant: PropTypes.func.isRequired,
-  cancelDeletingParticipant: PropTypes.func.isRequired,
-  sortParticipant: PropTypes.func.isRequired,
   sortAttribute: PropTypes.string,
-  handleSubmit: PropTypes.func.isRequired,
+  participantRequestActions: PropTypes.object,
+  participantTableActions: PropTypes.object,
 };
 
 ParticipantTable = reduxForm({

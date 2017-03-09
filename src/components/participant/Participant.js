@@ -4,25 +4,24 @@
 
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
+import {bindActionCreators} from 'redux';
 
 import ParticipantTable from './ParticipantTable';
 import ParticipantForm from './ParticipantForm';
-import { fetchParticipants, postParticipant,
-  editParticipant, deleteParticipant } from '../../actions/participantActions';
-import { requestEditingFormParticipant, cancelEditingParticipant, sortParticipant,
-  requestDeletingFormParticipant, cancelDeletingParticipant } from '../../actions/participantTableActions';
+import * as participantActions from '../../actions/participantActions';
+import * as participantTableActions from '../../actions/participantTableActions';
 import { sortMap, Comparator } from '../../services/participant';
 
 class Participant extends Component {
 
   componentDidMount() {
-    this.props.getParticipants();
+    this.props.participantRequestActions.fetchParticipants();
   }
 
   render() {
     return (
       <div>
-        <ParticipantForm onSubmit={this.props.addParticipant}/>
+        <ParticipantForm onSubmit={this.props.participantRequestActions.postParticipant}/>
         <ParticipantTable
           participants={this.props.participants}
           isFetching={this.props.isFetching}
@@ -30,14 +29,8 @@ class Participant extends Component {
           initialValues={this.props.editingParticipant} // for edit redux-form
           isDeleteForm={this.props.isDeleteForm}
           sortAttribute={this.props.sortAttribute}
-          cancelEditParticipantHandler={this.props.cancelEditParticipant}
-          requestEditParticipant={this.props.requestEditParticipant}
-          deleteParticipant={this.props.deleteParticipant}
-          getDeleteFormParticipant={this.props.getDeleteFormParticipant}
-          cancelDeletingParticipant={this.props.cancelDeletingParticipant}
-          editFormParticipantHandler={this.props.getEditFormParticipant}
-          sortParticipant={this.props.sortParticipant}
-        />
+          participantRequestActions={this.props.participantRequestActions}
+          participantTableActions={this.props.participantTableActions} />
       </div>
     );
   }
@@ -68,7 +61,8 @@ const mapStateToProps = (state) => {
     return {
         participants: sortMap(
           (state.participants.participants),
-          Comparator(state.participantTable.sortAttribute)),
+          Comparator(state.participantTable.sortAttribute)
+        ),
         isFetching: state.participants.isFetching,
         editingParticipant: state.participantTable.editingParticipant,
         isDeleteForm: state.participantTable.isDeleteForm,
@@ -76,18 +70,10 @@ const mapStateToProps = (state) => {
     };
 };
 
-// TODO use bindActionCreators
 const mapDispatchToProps = (dispatch) => {
     return {
-        getParticipants: () => dispatch(fetchParticipants()),
-        addParticipant: (participant) => dispatch(postParticipant(participant)),
-        getEditFormParticipant: (participant) => dispatch(requestEditingFormParticipant(participant)),
-        cancelEditParticipant: (participant) => dispatch(cancelEditingParticipant(participant)),
-        requestEditParticipant: (participant) => dispatch(editParticipant(participant)),
-        getDeleteFormParticipant: (participant) => dispatch(requestDeletingFormParticipant(participant)),
-        cancelDeletingParticipant: (participant) => dispatch(cancelDeletingParticipant(participant)),
-        deleteParticipant: (participant) => dispatch(deleteParticipant(participant)),
-        sortParticipant: (attribute, isAscending) => dispatch(sortParticipant(attribute, isAscending)),
+        participantRequestActions: bindActionCreators(participantActions, dispatch),
+        participantTableActions: bindActionCreators(participantTableActions, dispatch),
     };
 };
 
