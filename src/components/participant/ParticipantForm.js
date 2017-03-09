@@ -6,7 +6,7 @@ import { Field, reduxForm } from 'redux-form';
 
 import { validationRequired, validationEmail, renderField } from './FormFields';
 
-import '../ParticipantForm.css';
+import '../../styles/ParticipantForm.css';
 
 class ParticipantForm extends Component {
   render() {

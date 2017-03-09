@@ -1,0 +1,38 @@
+@import "variables";
+
+.App-container {
+  background-color: $background-color;
+  text-align: center;
+}
+
+.App {
+  margin: 0 auto;
+  width: $container-width;
+
+  h2 {
+    text-align: left;
+    margin: 2em 0;
+    color: $h2-color;
+  }
+}
+
+.App-logo {
+  animation: App-logo-spin infinite 20s linear;
+  height: $height-logo-header;
+  margin-left: $left-logo-header;
+}
+
+.App-header {
+  display: flex;
+  background-color: $header-color;
+  height: $height-header;
+  color: white;
+  align-items: center;
+  text-align: left;
+}
+
+@keyframes App-logo-spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+

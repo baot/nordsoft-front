@@ -17,9 +17,9 @@ export function validationEmail(value /* ,allValues, props */) {
 
 export function renderField({ input, label, type, meta: { touched, error, warning } }) {
   return (
-    <div>
-      <input {...input} placeholder={label} type={type}/>
-      {touched && ((error && <span>{error}</span>))}
+    <div className="flexContainer">
+      <input {...input} placeholder={label} type={type} autoComplete="off"/>
+      {touched && ((error && <div className="error">{error}</div>))}
     </div>
   );
 }

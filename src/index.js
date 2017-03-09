@@ -7,7 +7,7 @@ import logger from 'redux-logger';
 
 import rootReducer from './reducers';
 import App from './components/App';
-import './index.css';
+import './styles/index.css';
 
 const loggerMiddleware = logger();
 

@@ -5,17 +5,17 @@ import Notification from './notification/Notification';
 
 import 'font-awesome/css/font-awesome.css';
 import logo from '../logo.svg';
-import './App.css';
+import '../styles/App.css';
 
 class App extends Component {
   render() {
     return (
       <div className="App-container">
+        <div className="App-header">
+          <img src={logo} className="App-logo" alt="logo" />
+        </div>
         <div className="App">
-          <div className="App-header">
-            <img src={logo} className="App-logo" alt="logo" />
-            <h2>Welcome to React</h2>
-          </div>
+          <h2>List of participants</h2>
           <Participant className="table"/>
           <Notification />
         </div>

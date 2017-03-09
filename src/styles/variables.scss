@@ -1,0 +1,35 @@
+// color
+$header-color: #909090;
+$background-body-color: #f3f3f3;
+$header-text-color: #757575;
+$background-default-button-color: #f3f3f3;
+$background-hover-button-color: #07f;
+
+// margin, padding
+$top-logo-header: 32px;
+$left-logo-header: 32px;
+$h2-margin: 2em 0;
+
+// height
+$height-header: 96px;
+$height-logo-header: 32px;
+$height-form-field: 40px;
+$height-form-button: 40px;
+
+// container width
+$container-width: 912px;
+
+@mixin input-placeholder {
+  &:-ms-input-placeholder {
+    @content;
+  }
+  &:-moz-placeholder {
+    @content;
+  }
+  &::-moz-placeholder {
+    @content;
+  }
+  &::-webkit-input-placeholder {
+    @content;
+  }
+}

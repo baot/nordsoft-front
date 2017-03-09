@@ -9,7 +9,7 @@ import { map } from 'ramda';
 
 import { validationRequired, validationEmail, renderField } from './FormFields';
 
-import '../ParticipantTable.css';
+import '../../styles/ParticipantTable.css';
 
 const OptionComponent = ({ editParticipant, deleteParticipant }) => {
   return (
@@ -27,9 +27,9 @@ OptionComponent.propTypes = {
 
 const SubmitOptionComponent = ({ isDelete, cancelHandler, confirmHandler }) => {
   return (
-    <div>
-      <button onClick={cancelHandler}>Cancel</button>
-      <button onClick={confirmHandler}>{(isDelete) ? "Delete" : "Save"}</button>
+    <div className="button option">
+      <button className="cancel" onClick={cancelHandler}>Cancel</button>
+      <button className="confirm" onClick={confirmHandler}>{(isDelete) ? "Delete" : "Save"}</button>
     </div>
   );
 };
@@ -64,39 +64,35 @@ const populateRows = ({
             <div className="text">{participant.name}</div>
             <div className="text double-size">{participant.email}</div>
             <div className="text">{participant.phone}</div>
-            <div className="option">
               <SubmitOptionComponent
                 isDelete={true}
                 cancelHandler={participantTableActions.cancelDeletingParticipant.bind(null, participant)}
                 confirmHandler={participantRequestActions.deleteParticipant.bind(null, participant)}/>
-            </div>
           </div>
         );
       }
 
       return (
         <div className="table-row body" key={editingParticipant.id} >
-          <div className="text">
+          <div className="text edit">
             <Field
               name="name" component={renderField}
               type="text" validate={validationRequired} label="Full name"/>
           </div>
-          <div className="text double-size">
+          <div className="text edit double-size">
             <Field name="email" component={renderField}
               type="text" validate={[validationEmail, validationRequired]} label="E-mail address"/>
           </div>
-          <div className="text">
+          <div className="text edit">
             <Field name="phone" component={renderField}
               type="text" validate={validationRequired} label="Phone number"/>
           </div>
-          <div className="option">
             <SubmitOptionComponent
               isDelete={false}
               cancelHandler={participantTableActions.cancelEditingParticipant.bind(null, participant)}
               confirmHandler={handleSubmit(data => {
                 participantRequestActions.editParticipant(data);
               })}/>
-          </div>
         </div>
       );
 
