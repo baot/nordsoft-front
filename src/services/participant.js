@@ -24,12 +24,20 @@ const getRequest = url => new Task((rej, res) => {
 // TODO: error message handling
 // TODO: split making url
 const postRequestParticipants = (participant) => new Task((rej, res) => {
+  const header = new Headers({
+    "Access-Control-Allow-Origin": "*",
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+  });
   fetch('http://localhost:3001/api/participants', {
     method: 'POST',
-    body: JSON.stringify(participant)
+    body: JSON.stringify(participant),
+    headers: header,
   })
     .then((resp) => {
+      console.log(resp);
       if (!resp.ok) throw new Error('something wrong');
+      console.log(resp);
       return resp.json();
     })
     .then(res)
@@ -37,7 +45,7 @@ const postRequestParticipants = (participant) => new Task((rej, res) => {
 });
 
 const postEditRequestParticipant = (participant) => new Task((rej, res) => {
-  fetch(`http://localhost:3001/api/participant/${participant.id}`, {
+  fetch(`http://localhost:3001/api/participants/${participant.id}`, {
     method: 'PUT',
     body: JSON.stringify(participant)
   })
@@ -50,7 +58,7 @@ const postEditRequestParticipant = (participant) => new Task((rej, res) => {
 });
 
 const postDeleteRequestParticipant = (participant) => new Task((rej, res) => {
-  fetch(`http://localhost:3001/api/participant/${participant.id}`, {
+  fetch(`http://localhost:3001/api/participants/${participant.id}`, {
     method: 'DELETE',
     body: JSON.stringify(participant),
   })

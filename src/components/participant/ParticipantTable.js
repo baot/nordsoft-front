@@ -44,7 +44,7 @@ SubmitOptionComponent.propTypes = {
 const populateRows = ({
     participants, editFormParticipantHandler, editingParticipant,
     isDeleteForm, cancelEditParticipantHandler, requestEditParticipant,
-    getDeleteFormParticipant, deleteParticipant, cancelDeletingParticipant,
+    getDeleteFormParticipant, deleteParticipant, cancelDeletingParticipant, handleSubmit,
     sortParticipant,
   }) => {
     return map((participant) => {
@@ -96,7 +96,9 @@ const populateRows = ({
             <SubmitOptionComponent
               isDelete={false}
               cancelHandler={cancelEditParticipantHandler.bind(null, participant)}
-              confirmHandler={requestEditParticipant.bind(null, participant)}/>
+              confirmHandler={handleSubmit(data => {
+                requestEditParticipant(data);
+              })}/>
           </div>
         </div>
       );
@@ -144,6 +146,7 @@ ParticipantTable.propTypes = {
   cancelDeletingParticipant: PropTypes.func.isRequired,
   sortParticipant: PropTypes.func.isRequired,
   sortAttribute: PropTypes.string,
+  handleSubmit: PropTypes.func.isRequired,
 };
 
 ParticipantTable = reduxForm({

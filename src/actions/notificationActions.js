@@ -2,12 +2,19 @@
  * Created by bao on 3/7/17.
  */
 
-export const NEW_NOTIFICATION = 'NEW_NOTIFICATION';
+export const SUCCESS_NOTIFICATION = 'SUCCESS_NOTIFICATION';
+export const ERROR_NOTIFICATION = 'ERROR_NOTIFICATION';
 
-export function newNotification(message, level) {
+export function successNotification(message) {
   return {
-    type: NEW_NOTIFICATION,
+    type: SUCCESS_NOTIFICATION,
     message,
-    level,
+  };
+}
+
+export function errorNotification(message) {
+  return {
+    type: ERROR_NOTIFICATION,
+    message,
   };
 }

@@ -7,9 +7,11 @@ import { connect } from 'react-redux';
 
 import ParticipantTable from './ParticipantTable';
 import ParticipantForm from './ParticipantForm';
-import { fetchParticipants, postParticipant, sortParticipant,
-  requestEditingFormParticipant, cancelEditingParticipant, editParticipant,
-  requestDeletingFormParticipant, cancelDeletingParticipant, deleteParticipant } from '../../actions/participantActions';
+import { fetchParticipants, postParticipant,
+  editParticipant, deleteParticipant } from '../../actions/participantActions';
+import { requestEditingFormParticipant, cancelEditingParticipant, sortParticipant,
+  requestDeletingFormParticipant, cancelDeletingParticipant } from '../../actions/participantTableActions';
+import { sortMap, Comparator } from '../../services/participant';
 
 class Participant extends Component {
 
@@ -23,17 +25,18 @@ class Participant extends Component {
         <ParticipantForm onSubmit={this.props.addParticipant}/>
         <ParticipantTable
           participants={this.props.participants}
-          editFormParticipantHandler={this.props.getEditFormParticipant}
+          isFetching={this.props.isFetching}
           editingParticipant={this.props.editingParticipant}
-          initialValues={this.props.editingParticipant}
+          initialValues={this.props.editingParticipant} // for edit redux-form
+          isDeleteForm={this.props.isDeleteForm}
+          sortAttribute={this.props.sortAttribute}
           cancelEditParticipantHandler={this.props.cancelEditParticipant}
           requestEditParticipant={this.props.requestEditParticipant}
           deleteParticipant={this.props.deleteParticipant}
           getDeleteFormParticipant={this.props.getDeleteFormParticipant}
           cancelDeletingParticipant={this.props.cancelDeletingParticipant}
-          isDeleteForm={this.props.isDeleteForm}
+          editFormParticipantHandler={this.props.getEditFormParticipant}
           sortParticipant={this.props.sortParticipant}
-          sortAttribute={this.props.sortAttribute}
         />
       </div>
     );
@@ -41,31 +44,35 @@ class Participant extends Component {
 }
 
 Participant.propTypes = {
+    // from participantReducer
     participants: PropTypes.object,
-    error: PropTypes.string,
     isFetching: PropTypes.bool,
+    // from participantTableReducer
+    editingParticipant: PropTypes.object,
+    isDeleteForm: PropTypes.bool,
+    sortAttribute: PropTypes.string,
+    // from participant actions
     getParticipants: PropTypes.func,
     addParticipant: PropTypes.func,
+    deleteParticipant: PropTypes.func,
+    requestEditParticipant: PropTypes.func,
+    // from participant table actions
     getEditFormParticipant: PropTypes.func,
     cancelEditParticipant: PropTypes.func,
-    requestEditParticipant: PropTypes.func,
-    editingParticipant: PropTypes.object,
-    deleteParticipant: PropTypes.func,
     getDeleteFormParticipant: PropTypes.func,
     cancelDeletingParticipant: PropTypes.func,
     sortParticipant: PropTypes.func,
-    isDeleteForm: PropTypes.bool,
-    sortAttribute: PropTypes.string,
 };
 
 const mapStateToProps = (state) => {
     return {
-        participants: state.participants.participants,
-        error: state.participants.error,
+        participants: sortMap(
+          (state.participants.participants),
+          Comparator(state.participantTable.sortAttribute)),
         isFetching: state.participants.isFetching,
-        editingParticipant: state.participants.editingParticipant,
-        isDeleteForm: state.participants.isDeleteForm,
-        sortAttribute: state.participants.sortAttribute,
+        editingParticipant: state.participantTable.editingParticipant,
+        isDeleteForm: state.participantTable.isDeleteForm,
+        sortAttribute: state.participantTable.sortAttribute,
     };
 };
 
