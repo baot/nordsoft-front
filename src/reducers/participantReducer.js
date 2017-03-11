@@ -47,6 +47,7 @@ export function participantReducer(state = {
 
     case RECEIVE_POST_EDITTING_PARTICIPANT:
       return Object.assign({}, state, {
+        isFetching: false,
         participants: state.participants.set(action.participant.id, action.participant),
       });
 
@@ -57,6 +58,7 @@ export function participantReducer(state = {
 
     case RECEIVE_DELETE_PARTICIPANT:
       return Object.assign({}, state, {
+        isFetching: false,
         participants: state.participants.delete(action.participant.id),
       });
 

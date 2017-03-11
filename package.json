@@ -12,6 +12,7 @@
     "react-dom": "^15.4.2",
     "react-fontawesome": "^1.5.0",
     "react-motion": "^0.4.7",
+    "react-notification-system": "^0.2.12",
     "react-redux": "^5.0.3",
     "redux": "^3.6.0",
     "redux-form": "^6.5.0",
@@ -34,7 +35,8 @@
     "build": "npm run build-css && react-scripts build",
     "build-css": "node-sass src/ -o src/",
     "watch-css": "npm run build-css && node-sass src/ -o src/ --watch --recursive",
-    "test": "react-scripts test --env=jsdom",
+    "test-without-css": "react-scripts test --env=jsdom",
+    "test": "npm-run-all build-css test-without-css",
     "eject": "react-scripts eject"
   }
 }
