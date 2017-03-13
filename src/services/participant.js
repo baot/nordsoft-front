@@ -3,7 +3,7 @@
  */
 
 import Task from 'data.task';
-import { compose } from 'ramda';
+import { compose, curry } from 'ramda';
 
 // TODO: document functions
 
@@ -23,7 +23,7 @@ const getRequest = url => new Task((rej, res) => {
 
 // TODO: error message handling
 // TODO: split making url
-const postRequestParticipants = (participant) => new Task((rej, res) => {
+export const postRequestParticipants = (participant) => new Task((rej, res) => {
   const header = new Headers({
     "Access-Control-Allow-Origin": "*",
     "Content-Type": "application/json",
@@ -42,7 +42,7 @@ const postRequestParticipants = (participant) => new Task((rej, res) => {
     .catch(() => rej('cannot create'));
 });
 
-const postEditRequestParticipant = (participant) => new Task((rej, res) => {
+export const postEditRequestParticipant = (participant) => new Task((rej, res) => {
   fetch(`http://localhost:3001/api/participants/${participant.id}`, {
     method: 'PUT',
     body: JSON.stringify(participant)
@@ -55,7 +55,7 @@ const postEditRequestParticipant = (participant) => new Task((rej, res) => {
     .catch(() => rej('cannot save'));
 });
 
-const postDeleteRequestParticipant = (participant) => new Task((rej, res) => {
+export const postDeleteRequestParticipant = (participant) => new Task((rej, res) => {
   fetch(`http://localhost:3001/api/participants/${participant.id}`, {
     method: 'DELETE',
     body: JSON.stringify(participant),
@@ -68,21 +68,13 @@ const postDeleteRequestParticipant = (participant) => new Task((rej, res) => {
     .catch(() => rej('cannot delete'));
 });
 
-const getRequestParticipants = compose(getRequest, makeGetUrl);
+export const getRequestParticipants = compose(getRequest, makeGetUrl);
 
-
-// SORT SERVICE
-// Map -> attribute -> sorted Map
-const Comparator = (attribute) => {
-  return (a, b) => {
+// curry for later usage
+export const sortMap = curry((attribute, map) => {
+  return map.sort((a, b) => {
     if (a[attribute] < b[attribute]) { return -1; }
     if (a[attribute] > b[attribute]) { return 1; }
     return 0;
-  };
-};
-
-const sortMap = (map, comparator) => {
-  return map.sort(comparator);
-};
-
-export { getRequestParticipants, postRequestParticipants, postEditRequestParticipant, postDeleteRequestParticipant, sortMap, Comparator };
+  });
+});

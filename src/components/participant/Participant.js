@@ -10,7 +10,7 @@ import ParticipantTable from './ParticipantTable';
 import ParticipantForm from './ParticipantForm';
 import * as participantActions from '../../actions/participantActions';
 import * as participantTableActions from '../../actions/participantTableActions';
-import { sortMap, Comparator } from '../../services/participant';
+import { sortMap } from '../../services/participant';
 
 class Participant extends Component {
 
@@ -59,10 +59,7 @@ Participant.propTypes = {
 
 const mapStateToProps = (state) => {
     return {
-        participants: sortMap(
-          (state.participants.participants),
-          Comparator(state.participantTable.sortAttribute)
-        ),
+        participants: sortMap(state.participantTable.sortAttribute)(state.participants.participants),
         isFetching: state.participants.isFetching,
         editingParticipant: state.participantTable.editingParticipant,
         isDeleteForm: state.participantTable.isDeleteForm,
